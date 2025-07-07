@@ -1,10 +1,13 @@
 import { User } from "../models/user.models.js";
 import bcrypt from "bcrypt";
+import validation from "../utils/validation.js";
+import validator from 'validator';
 
-export const registerUser = async (req, res) => {
+export const signupUser = async (req, res) => {
   try {
-    const {firstName, lastName, businessName, emailId, password} = req.body;
+    validation(req);
 
+    const {firstName, lastName, businessName, emailId, password} = req.body;
     const hashPassword = await bcrypt.hash(password, 10);
 
     const user = await User.create({
@@ -15,16 +18,19 @@ export const registerUser = async (req, res) => {
       password: hashPassword
     });
 
-    res.status(201).json({success: true, message: "User created successfully!", user});
+    return res.status(201).json({success: true, message: "User created successfully!", user});
 
   } catch (error) {
-    res.status(500).json({success: false, message: "Oops! Something went wrong.", ERROR: error.message});
+    return res.status(500).json({success: false, message: "Oops! Something went wrong.", ERROR: error.message});
   }
 }
 
-export const getRegistedUser = async (req, res) => {
+export const loginUser = async (req, res) => {
   try {
     const {emailId, password} = req.body;
+    if(!validator.isEmail(emailId)) {
+      throw new Error("Invalid credentials");
+    }
 
     const user = await User.findOne({emailId});
     if(!user) {
@@ -36,9 +42,21 @@ export const getRegistedUser = async (req, res) => {
       throw new Error("Invalid credentials");
     }
 
-    res.status(200).json({success: true, message: "User found successfully!", user});
+    const token = await user.getJWT();
+    res.cookie("token", token);
+
+    return res.status(200).json({success: true, message: "User found successfully!", user});
 
   } catch (error) {
-    res.status(400).json({success: false, ERROR: error.message});
+    return res.status(400).json({success: false, ERROR: error.message});
+  }
+}
+
+export const logoutUser = async (req, res) => {
+  try {
+    res.cookie("token", null, {expires: new Date()});
+    return res.status(200).json({success: true, message: "User logged out successfully!"});
+  } catch (error) {
+    return res.status(500).json({success: false, ERROR: error.message});
   }
 }
