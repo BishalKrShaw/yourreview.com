@@ -9,7 +9,7 @@ export const userAuth = async (req, res, next) => {
       throw new Error("Login first.");
     }
 
-    const decodedData = await jwt.verify(token, process.env.JWT_SECRECT_KEY);
+    const decodedData = await jwt.verify(token, process.env.JWT_SECRET_KEY);
     const {_id} = decodedData;
 
     const user = await User.findById({_id});
