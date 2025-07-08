@@ -44,11 +44,16 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
 
+  isVerified: {
+    type: Boolean,
+    default: false,
+  }
+
 }, {timestamps: true});
 
 userSchema.methods.getJWT = async function() {
   const user = this;
-  const token = await jwt.sign({_id: user._id}, process.env.JWT_SECRECT_KEY, {expiresIn: "1d"});
+  const token = await jwt.sign({_id: user._id}, process.env.JWT_SECRET_KEY, {expiresIn: "1d"});
   return token;
 }
 
