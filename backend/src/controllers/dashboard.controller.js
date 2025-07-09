@@ -1,5 +1,5 @@
 
-export const userProfile = async (req, res) => {
+export const userDashboard = async (req, res) => {
   try {
     const user = req.user;
     return res.status(200).json({success: true, user});

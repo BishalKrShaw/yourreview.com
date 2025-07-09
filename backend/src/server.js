@@ -5,7 +5,9 @@ import dotenv from 'dotenv';
 import cookieParser from "cookie-parser";
 import cors from 'cors';
 import authRouter from './routes/auth.routes.js';
-import profileRouter from './routes/profile.routes.js';
+import dashboardRouter from './routes/dashboard.routes.js';
+import campaignRouter from './routes/campaign.routes.js';
+import reviewRouter from './routes/review.routes.js';
 
 dotenv.config({
   path: './env'
@@ -24,7 +26,9 @@ app.use(cors({
 app.use(cookieParser());
 
 app.use("/", authRouter);
-app.use("/", profileRouter);
+app.use("/", dashboardRouter);
+app.use("/", campaignRouter);
+app.use("/", reviewRouter);
 
 connectDatabase()
   .then(() => {
