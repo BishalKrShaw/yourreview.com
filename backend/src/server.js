@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 7000;
 app.use(express.json());
 
 app.use(cors({
-  origin: "",
+  origin: process.env.CLIENT_SITE,
   credentials: true
 }))
 
@@ -29,6 +29,7 @@ app.use("/", authRouter);
 app.use("/", dashboardRouter);
 app.use("/", campaignRouter);
 app.use("/", reviewRouter);
+app.use("/auth", authRouter);
 
 connectDatabase()
   .then(() => {

@@ -76,7 +76,12 @@ export const loginUser = async (req, res) => {
     }
 
     const token = await user.getJWT();
-    res.cookie("token", token);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "Lax",
+      maxAge: 24 * 60 * 60 * 1000
+    });
 
     return res
       .status(200)
@@ -96,3 +101,11 @@ export const logoutUser = async (req, res) => {
     return res.status(500).json({ success: false, ERROR: error.message });
   }
 };
+
+export const verifyAuth = async (req, res) => {
+  try {
+    return res.status(200).json({success: true, user: req.user});
+  } catch (error) {
+    return res.status(400).json({success: false, ERROR: error.message});
+  }
+}
