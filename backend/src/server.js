@@ -25,11 +25,10 @@ app.use(cors({
 
 app.use(cookieParser());
 
-app.use("/", authRouter);
-app.use("/", dashboardRouter);
-app.use("/", campaignRouter);
-app.use("/", reviewRouter);
-app.use("/auth", authRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/dashboard", dashboardRouter);
+app.use("/api/campaign", campaignRouter);
+app.use("/api/reviews", reviewRouter);
 
 connectDatabase()
   .then(() => {

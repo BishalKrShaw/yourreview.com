@@ -10,6 +10,7 @@ import Signup from './pages/auth/Signup.jsx'
 import ProtectedRoute from './routes/ProtectedRoute.jsx'
 import DashboardLayout from './layouts/DashboardLayout.jsx'
 import Dashboard from './pages/dashboard/Dashboard.jsx'
+import EmailVerification from './pages/auth/EmailVerification.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -21,6 +22,7 @@ const router = createBrowserRouter(
         <Route index element={<Landing/>}/>
         <Route path='login' element={<Login/>}/>
         <Route path='signup' element={<Signup/>}/>
+        <Route path='verify-email' element={<EmailVerification/>}/>
       </Route>
 
       {/* Protected Routes */}

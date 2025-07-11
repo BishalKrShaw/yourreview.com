@@ -1,12 +1,34 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { Navigate, Outlet } from "react-router-dom";
 
-const PublicLayout = () => {
-  return (
-    <div className='min-h-screen'>
-      <Outlet/>
-    </div>
-  )
-}
+const PublicRoute = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
 
-export default PublicLayout
+  const verifyUser = async () => {
+    try {
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/auth/verify`, {
+        withCredentials: true,
+      });
+      if (res.data.success) {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
+    } catch {
+      setIsAuthenticated(false);
+    }
+  };
+
+  useEffect(() => {
+    verifyUser();
+  }, []);
+
+  if (isAuthenticated === null) {
+    return <div>Loading...</div>;
+  }
+
+  return isAuthenticated ? <Navigate to="/dashboard" replace /> : <Outlet />;
+};
+
+export default PublicRoute;

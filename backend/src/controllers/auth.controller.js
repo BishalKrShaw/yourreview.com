@@ -26,7 +26,7 @@ export const signupUser = async (req, res) => {
       { expiresIn: "10m" }
     );
 
-    const link = `${process.env.DOMAIN_NAME}/verify-email?token=${token}`;
+    const link = `${process.env.CLIENT_SITE}/verify-email?token=${token}`;
 
     await sendEmail({
       to: user.emailId,
@@ -40,7 +40,7 @@ export const signupUser = async (req, res) => {
 
     return res
       .status(201)
-      .json({ success: true, message: "Email verification sent!", user });
+      .json({ success: true, message: "Email verification mail sent to your mail ID.", user });
   } catch (error) {
     return res
       .status(500)
