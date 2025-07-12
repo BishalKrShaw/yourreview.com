@@ -20,11 +20,14 @@ import ContactUs from './pages/Contactus.jsx'
 import PrivacyPolicy from './pages/PrivayPolicy.jsx'
 import Pricing from './pages/Pricing.jsx'
 import TermsAndConditions from './pages/TermsAndConditions.jsx'
+import ReviewForm from './pages/review/ReviewForm.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
 
     <Route path='/' element={<App/>}>
+
+      <Route path="/review/:id" element={<ReviewForm/>}/>
 
       {/* Public Routes */}
       <Route element={<PublicLayout/>}>

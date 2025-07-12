@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
-const SubmitReview = () => {
+const ReviewForm = () => {
   const { id } = useParams(); // campaignId from URL
   const [form, setForm] = useState({
     customerName: '',
@@ -99,7 +99,7 @@ const SubmitReview = () => {
 
           <button
             type="submit"
-            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 rounded-md transition"
+            className="w-full bg-white/10 hover:bg-white/20 text-white font-medium py-2 rounded-md transition cursor-pointer"
           >
             Submit Review
           </button>
@@ -119,4 +119,4 @@ const SubmitReview = () => {
   );
 };
 
-export default SubmitReview;
+export default ReviewForm;

@@ -9,7 +9,7 @@ export const createCampaign = async (req, res) => {
     const campaignId = nanoid(8);
     const user = req.user;
 
-    const reviewLink = `${process.env.DOMAIN_NAME}/api/review/${campaignId}`;
+    const reviewLink = `${process.env.CLIENT_SITE}/review/${campaignId}`;
 
     const campaign = await Campaign.create({
       userId: user._id,

@@ -29,7 +29,7 @@ app.use(cookieParser());
 app.use("/api/auth", authRouter);
 app.use("/api/dashboard", dashboardRouter);
 app.use("/api/campaigns", campaignRouter);
-app.use("/api/reviews", reviewRouter);
+app.use("/api/review", reviewRouter);
 app.use("/api/profile", profileRouter);
 
 connectDatabase()
