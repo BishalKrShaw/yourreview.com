@@ -28,7 +28,7 @@ const Login = () => {
         { withCredentials: true }
       );
       setMessage(res.data.message);
-      navigate("/dashboard");
+      navigate("/dashboard", {replace: true});
     } catch (err) {
       setMessage(err.response?.data?.ERROR || "Login failed.");
     }

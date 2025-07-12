@@ -40,15 +40,17 @@ export const signupUser = async (req, res) => {
 
     return res
       .status(201)
-      .json({ success: true, message: "Email verification mail sent to your mail ID.", user });
-  } catch (error) {
-    return res
-      .status(500)
       .json({
-        success: false,
-        message: "Oops! Something went wrong.",
-        ERROR: error.message,
+        success: true,
+        message: "Email verification mail sent to your mail ID.",
+        user,
       });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Oops! Something went wrong.",
+      ERROR: error.message,
+    });
   }
 };
 
@@ -80,7 +82,7 @@ export const loginUser = async (req, res) => {
       httpOnly: true,
       secure: false,
       sameSite: "Lax",
-      maxAge: 24 * 60 * 60 * 1000
+      maxAge: 24 * 60 * 60 * 1000,
     });
 
     return res
@@ -93,7 +95,13 @@ export const loginUser = async (req, res) => {
 
 export const logoutUser = async (req, res) => {
   try {
-    res.cookie("token", null, { expires: new Date() });
+    // Clear the token cookie properly
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: false, // set to true in production with HTTPS
+      sameSite: "Lax",
+    });
+
     return res
       .status(200)
       .json({ success: true, message: "User logged out successfully!" });
@@ -104,8 +112,8 @@ export const logoutUser = async (req, res) => {
 
 export const verifyAuth = async (req, res) => {
   try {
-    return res.status(200).json({success: true, user: req.user});
+    return res.status(200).json({ success: true, user: req.user });
   } catch (error) {
-    return res.status(400).json({success: false, ERROR: error.message});
+    return res.status(400).json({ success: false, ERROR: error.message });
   }
-}
+};

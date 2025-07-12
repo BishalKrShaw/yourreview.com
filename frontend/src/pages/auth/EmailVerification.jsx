@@ -24,7 +24,7 @@ const EmailVerification = () => {
       console.log(res.data);
       console.log(res.data.success);
       if(res.data.success) {
-        setStatus("Email verified! Redirecting to login...");
+        setStatus("Email verified! Redirecting to login page...");
         setTimeout(() => {
           navigate("/login");
         }, 3000);
@@ -40,7 +40,9 @@ const EmailVerification = () => {
   }, [searchParams, navigate]);
 
   return (
-    <div className='h-screen flex justify-center items-center text-xl font-medium'>{status}</div>
+    <div className='bg-black text-white h-screen flex justify-center items-center text-xl font-medium'>
+      <p>{status}</p>
+    </div>
   )
 }
 

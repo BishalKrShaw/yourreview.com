@@ -31,7 +31,6 @@ const Signup = () => {
         { withCredentials: true }
       );
       setMessage(res.data.message);
-      navigate("/login");
     } catch (err) {
       console.log(err);
       setMessage(err.response?.data?.ERROR || "Signup failed.");

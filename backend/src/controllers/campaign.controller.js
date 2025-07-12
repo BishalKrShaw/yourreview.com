@@ -9,7 +9,7 @@ export const createCampaign = async (req, res) => {
     const campaignId = nanoid(8);
     const user = req.user;
 
-    const reviewLink = `${process.env.DOMAIN_NAME}/review/${campaignId}`;
+    const reviewLink = `${process.env.DOMAIN_NAME}/api/review/${campaignId}`;
 
     const campaign = await Campaign.create({
       userId: user._id,
@@ -36,5 +36,23 @@ export const getCampaign = async (req, res) => {
 
   } catch (error) {
     return res.status(500).json({success: false, ERROR: error.message});
+  }
+}
+
+export const deleteCampaign = async (req, res) => {
+  try {
+    const {id} = req.params;
+
+    const user = req.user;
+
+    const campaign = await Campaign.findOneAndDelete({_id: id, userId: req.user._id});
+    if(!campaign) {
+      throw new Error("No campaign found!");
+    }
+
+    return res.status(200).json({success: true, message: "Campaign deleted successfully!"});
+
+  } catch (error) {
+    return res.status(400).json({success: false, ERROR: error.message});
   }
 }

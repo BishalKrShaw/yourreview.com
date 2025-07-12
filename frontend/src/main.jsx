@@ -11,6 +11,15 @@ import ProtectedRoute from './routes/ProtectedRoute.jsx'
 import DashboardLayout from './layouts/DashboardLayout.jsx'
 import Dashboard from './pages/dashboard/Dashboard.jsx'
 import EmailVerification from './pages/auth/EmailVerification.jsx'
+import CampaignList from './pages/campaign/CampaignList.jsx'
+import CreateCampaign from './pages/campaign/CreateCampaign.jsx'
+import Profile from './pages/profile/Profile.jsx'
+import Services from './pages/Services.jsx'
+import AboutUs from './pages/Aboutus.jsx'
+import ContactUs from './pages/Contactus.jsx'
+import PrivacyPolicy from './pages/PrivayPolicy.jsx'
+import Pricing from './pages/Pricing.jsx'
+import TermsAndConditions from './pages/TermsAndConditions.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -23,11 +32,20 @@ const router = createBrowserRouter(
         <Route path='login' element={<Login/>}/>
         <Route path='signup' element={<Signup/>}/>
         <Route path='verify-email' element={<EmailVerification/>}/>
+        <Route path='services' element={<Services/>}/>
+        <Route path='aboutus' element={<AboutUs/>}/>
+        <Route path='contactus' element={<ContactUs/>}/>
+        <Route path='privacy-policy' element={<PrivacyPolicy/>}/>
+        <Route path='pricing' element={<Pricing/>}/>
+        <Route path='terms-conditions' element={<TermsAndConditions/>}/>
       </Route>
 
       {/* Protected Routes */}
       <Route element={<ProtectedRoute><DashboardLayout/></ProtectedRoute>}>
         <Route path='dashboard' element={<Dashboard/>}/>
+        <Route path='campaigns' element={<CampaignList/>}/>
+        <Route path='create-campaign' element={<CreateCampaign/>}/>
+        <Route path='/profile' element={<Profile/>}/>
       </Route>
 
     </Route>

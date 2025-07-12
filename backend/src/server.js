@@ -8,6 +8,7 @@ import authRouter from './routes/auth.routes.js';
 import dashboardRouter from './routes/dashboard.routes.js';
 import campaignRouter from './routes/campaign.routes.js';
 import reviewRouter from './routes/review.routes.js';
+import profileRouter from './routes/profile.routes.js';
 
 dotenv.config({
   path: './env'
@@ -27,8 +28,9 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRouter);
 app.use("/api/dashboard", dashboardRouter);
-app.use("/api/campaign", campaignRouter);
+app.use("/api/campaigns", campaignRouter);
 app.use("/api/reviews", reviewRouter);
+app.use("/api/profile", profileRouter);
 
 connectDatabase()
   .then(() => {
