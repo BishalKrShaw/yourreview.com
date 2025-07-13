@@ -1,11 +1,15 @@
 
 import express from "express";
-import { getCampaignReviews, submitReview } from "../controllers/review.controller.js";
+import { getCampaignReviews, getReviewsForDashboard, submitReview } from "../controllers/review.controller.js";
 import { userAuth } from "../middlewares/userAuth.middleware.js";
 
 const reviewRouter = express.Router();
 
-reviewRouter.post("/:id", submitReview);
-reviewRouter.get("/:id", userAuth, getCampaignReviews);
+// Public (customers)
+reviewRouter.post("/review/:id", submitReview);
+reviewRouter.get("/review/:id", getCampaignReviews);
+
+// Authenticated user (owner) dashboard
+reviewRouter.get("/reviews/campaign/:id", userAuth, getReviewsForDashboard);
 
 export default reviewRouter;

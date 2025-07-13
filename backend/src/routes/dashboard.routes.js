@@ -5,6 +5,6 @@ import { userDashboard } from "../controllers/dashboard.controller.js";
 
 const dashboardRouter = express.Router();
 
-dashboardRouter.get("/dashboard", userAuth, userDashboard);
+dashboardRouter.get("/", userAuth, userDashboard);
 
 export default dashboardRouter;

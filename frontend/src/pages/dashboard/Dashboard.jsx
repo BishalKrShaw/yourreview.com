@@ -1,12 +1,32 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Dashboard = () => {
-  const campaigns = [
-    { name: "Summer Sale", createdOn: "Jul 5", reviews: 18, status: "Active" },
-    { name: "Winter Launch", createdOn: "Jun 20", reviews: 10, status: "Paused" },
-    { name: "Flash Offer", createdOn: "May 30", reviews: 5, status: "Active" }
-  ];
+  const [stats, setStats] = useState({
+    totalCampaigns: 0,
+    totalReviews: 0,
+    campaignSummaries: []
+  });
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchDashboard = async () => {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/dashboard`, {
+          withCredentials: true
+        });
+        if (res.data.success) {
+          setStats(res.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch dashboard data", error);
+      }
+    };
+
+    fetchDashboard();
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#0d0d0d] text-white px-4 sm:px-6 lg:px-8 py-8 space-y-10">
@@ -21,11 +41,16 @@ const Dashboard = () => {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        {[
-          { label: "Total Campaigns", value: "5" },
-          { label: "Total Reviews", value: "123" },
-          { label: "Avg Rating", value: "4.7" }
-        ].map((item, index) => (
+        {[{
+          label: "Total Campaigns",
+          value: stats.totalCampaigns
+        }, {
+          label: "Total Reviews",
+          value: stats.totalReviews
+        }, {
+          label: "Avg Rating",
+          value: "—" // Placeholder for future
+        }].map((item, index) => (
           <div key={index} className="bg-black/80 border border-gray-800 rounded-xl p-5 shadow-md backdrop-blur-sm">
             <h2 className="text-sm text-gray-400">{item.label}</h2>
             <p className="text-3xl font-bold mt-2">{item.value}</p>
@@ -52,20 +77,34 @@ const Dashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {campaigns.map((c, i) => (
-                <tr key={i} className="border-b border-gray-900 hover:bg-gray-900 transition">
-                  <td className="py-3">{c.name}</td>
-                  <td className="py-3">{c.createdOn}</td>
-                  <td className="py-3">{c.reviews}</td>
-                  <td className="py-3">
-                    <span className={`px-2 py-1 text-xs rounded-full font-medium ${
-                      c.status === "Active" ? "bg-green-700/50 text-green-300" : "bg-yellow-700/50 text-yellow-300"
-                    }`}>
-                      {c.status}
-                    </span>
-                  </td>
+              {stats.campaignSummaries.length === 0 ? (
+                <tr>
+                  <td colSpan="4" className="py-4 text-gray-500 text-center">No campaigns yet.</td>
                 </tr>
-              ))}
+              ) : (
+                stats.campaignSummaries.map((c) => (
+                  <tr
+                    key={c._id}
+                    onClick={() => navigate(`/campaign/${c._id}/reviews`)}
+                    className="border-b border-gray-900 hover:bg-gray-900 transition cursor-pointer"
+                  >
+                    <td className="py-3">{c.campaignName}</td>
+                    <td className="py-3">{new Date(c.createdAt).toLocaleDateString()}</td>
+                    <td className="py-3">{c.reviewCount}</td>
+                    <td className="py-3">
+                      <span
+                        className={`px-2 py-1 text-xs rounded-full font-medium ${
+                          c.reviewCount > 0
+                            ? "bg-green-700/50 text-green-300"
+                            : "bg-yellow-700/50 text-yellow-300"
+                        }`}
+                      >
+                        {c.reviewCount > 0 ? "Active" : "No Reviews"}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

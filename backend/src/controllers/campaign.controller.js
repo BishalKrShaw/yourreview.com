@@ -11,6 +11,9 @@ export const createCampaign = async (req, res) => {
 
     const reviewLink = `${process.env.CLIENT_SITE}/review/${campaignId}`;
 
+    const scriptURL = `<script src="${process.env.DOMAIN_NAME}/api/embed/widget/${campaignId}.js"></script>`;
+
+
     const campaign = await Campaign.create({
       userId: user._id,
       campaignName,
@@ -18,6 +21,7 @@ export const createCampaign = async (req, res) => {
       productOrService,
       campaignId,
       reviewLink,
+      scriptURL
     });
 
 
@@ -41,18 +45,15 @@ export const getCampaign = async (req, res) => {
 
 export const deleteCampaign = async (req, res) => {
   try {
-    const {id} = req.params;
-
-    const user = req.user;
-
-    const campaign = await Campaign.findOneAndDelete({_id: id, userId: req.user._id});
-    if(!campaign) {
-      throw new Error("No campaign found!");
+    const campaign = await Campaign.findById(req.params.id);
+    if (!campaign) {
+      return res.status(404).json({ success: false, message: "Campaign not found" });
     }
 
-    return res.status(200).json({success: true, message: "Campaign deleted successfully!"});
+    await campaign.deleteOne();
 
+    return res.status(200).json({ success: true, message: "Campaign and associated reviews deleted" });
   } catch (error) {
-    return res.status(400).json({success: false, ERROR: error.message});
+    return res.status(500).json({ success: false, ERROR: error.message });
   }
-}
+};

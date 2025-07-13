@@ -10,9 +10,7 @@ const CampaignList = () => {
     try {
       const res = await axios.get(
         `${import.meta.env.VITE_API_BASE_URL}/campaigns`,
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
       setCampaigns(res.data.campaigns);
     } catch (err) {
@@ -40,7 +38,7 @@ const CampaignList = () => {
         { withCredentials: true }
       );
       if (res.data.success) {
-        setCampaigns(prev => prev.filter(item => item._id !== id));
+        setCampaigns((prev) => prev.filter((item) => item._id !== id));
       }
     } catch (err) {
       console.error("Delete failed:", err);
@@ -49,35 +47,35 @@ const CampaignList = () => {
 
   return (
     <div className="bg-black min-h-screen text-white px-6 py-8">
-      <h1 className="text-2xl font-semibold mb-6">Your Campaigns</h1>
+      <h1 className="text-3xl font-semibold mb-8 text-center">Your Campaigns</h1>
 
       {campaigns.length === 0 ? (
-        <p className="text-gray-400">No campaigns found. Start by creating one!</p>
+        <p className="text-gray-400 text-center">No campaigns found. Start by creating one!</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
           {campaigns.map((item) => (
             <div
               key={item._id}
-              className="bg-white/10 p-4 rounded-lg shadow space-y-3 flex flex-col transition hover:shadow-lg"
+              className="bg-white/10 p-5 rounded-xl shadow flex flex-col justify-between hover:shadow-lg transition"
             >
-              <div className="flex justify-between items-center">
-                <h2 className="text-xl font-medium">{item.campaignName}</h2>
+              {/* Header */}
+              <div className="flex justify-between items-start mb-3">
+                <div>
+                  <h2 className="text-xl font-semibold break-words">{item.campaignName}</h2>
+                  <p className="text-gray-400 text-sm">{item.businessName} — {item.productOrService}</p>
+                </div>
                 <button
-                  className="cursor-pointer bg-white/30 p-2 rounded-full hover:bg-white/50 transition"
+                  className="bg-red-500/80 text-white p-2 rounded-full hover:bg-red-500 transition"
                   onClick={() => handleDelete(item._id)}
                 >
                   <Trash size={16} />
                 </button>
               </div>
 
-              <p className="text-gray-400">
-                {item.businessName} — {item.productOrService}
-              </p>
-
               {/* Review Link */}
-              <div>
+              <div className="mb-4">
                 <p className="text-sm text-gray-400 mb-1">Review Link:</p>
-                <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2 overflow-x-auto max-w-full">
                   <a
                     href={item.reviewLink}
                     target="_blank"
@@ -88,7 +86,7 @@ const CampaignList = () => {
                   </a>
                   <button
                     onClick={() => handleCopy(item.reviewLink, item._id + "-link")}
-                    className="hover:text-green-300 transition cursor-pointer"
+                    className="hover:text-green-300 transition"
                   >
                     <Copy size={16} />
                   </button>
@@ -98,26 +96,29 @@ const CampaignList = () => {
                 )}
               </div>
 
-              {/* Script Link */}
-              <div className="flex items-center justify-between pt-2">
-                <a
-                  href={`/campaign/${item._id}`}
-                  className="text-indigo-400 hover:underline text-sm"
-                >
-                  View Script
-                </a>
-                <button
-                  onClick={() =>
-                    handleCopy(`${window.location.origin}/campaign/${item._id}`, item._id + "-script")
-                  }
-                  className="hover:text-indigo-300 transition cursor-pointer"
-                >
-                  <Copy size={16} />
-                </button>
+              {/* Embed Script */}
+              <div>
+                <p className="text-sm text-gray-400 mb-1">Embed Script:</p>
+                <div className="flex items-start gap-2 overflow-x-auto max-w-full">
+                  <code className="text-xs bg-white/10 text-gray-100 px-2 py-2 rounded whitespace-nowrap">
+                    {`<script src="${import.meta.env.VITE_API_BASE_URL}/embed/widget/${item.campaignId}.js"></script>`}
+                  </code>
+                  <button
+                    onClick={() =>
+                      handleCopy(
+                        `<script src="${import.meta.env.VITE_API_BASE_URL}/embed/widget/${item.campaignId}.js"></script>`,
+                        item._id + "-script"
+                      )
+                    }
+                    className="hover:text-indigo-300 transition"
+                  >
+                    <Copy size={16} />
+                  </button>
+                </div>
+                {copiedId === item._id + "-script" && (
+                  <span className="text-xs text-indigo-400 mt-1 block">Copied!</span>
+                )}
               </div>
-              {copiedId === item._id + "-script" && (
-                <span className="text-xs text-indigo-400 block">Copied!</span>
-              )}
             </div>
           ))}
         </div>

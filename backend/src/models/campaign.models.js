@@ -1,5 +1,6 @@
 
 import mongoose from "mongoose";
+import { Review } from "./review.models.js";
 
 const campaignSchema = new mongoose.Schema({
 
@@ -41,8 +42,22 @@ const campaignSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
+  },
+
+  scriptURL: {
+    type: String,
+    required: true,
   }
 
 }, {timestamps: true});
+
+campaignSchema.pre("deleteOne", { document: true, query: false }, async function (next) {
+  try {
+    await Review.deleteMany({ campaignId: this._id });
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
 
 export const Campaign = mongoose.model("Campaign", campaignSchema);

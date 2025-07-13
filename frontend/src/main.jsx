@@ -21,6 +21,7 @@ import PrivacyPolicy from './pages/PrivayPolicy.jsx'
 import Pricing from './pages/Pricing.jsx'
 import TermsAndConditions from './pages/TermsAndConditions.jsx'
 import ReviewForm from './pages/review/ReviewForm.jsx'
+import CampaignReviews from './pages/review/CampaignReviews.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -48,7 +49,8 @@ const router = createBrowserRouter(
         <Route path='dashboard' element={<Dashboard/>}/>
         <Route path='campaigns' element={<CampaignList/>}/>
         <Route path='create-campaign' element={<CreateCampaign/>}/>
-        <Route path='/profile' element={<Profile/>}/>
+        <Route path='profile' element={<Profile/>}/>
+        <Route path="campaign/:id/reviews" element={<CampaignReviews />} />
       </Route>
 
     </Route>
