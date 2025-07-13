@@ -28,7 +28,7 @@ const Login = () => {
         { withCredentials: true }
       );
       setMessage(res.data.message);
-      navigate("/dashboard", {replace: true});
+      navigate("/dashboard", { replace: true });
     } catch (err) {
       setMessage(err.response?.data?.ERROR || "Login failed.");
     }
@@ -36,7 +36,7 @@ const Login = () => {
 
   return (
     <div className="flex justify-center items-center flex-col w-full h-screen bg-black px-4">
-    <header className="text-white text-xl font-semibold text-center mb-6">
+      <header className="text-white text-xl font-semibold text-center mb-6">
         <NavLink to="/">YourReview</NavLink>
       </header>
       <form
@@ -67,6 +67,13 @@ const Login = () => {
           onChange={handleChange}
         />
 
+        <NavLink
+          to="/forgot-password"
+          className="text-sm text-indigo-400 hover:underline"
+        >
+          Forgot your password?
+        </NavLink>
+
         <button
           type="submit"
           className="mt-2 bg-white text-black font-medium rounded-full py-2 hover:bg-white/90 transition cursor-pointer"
@@ -79,7 +86,7 @@ const Login = () => {
         )}
 
         <p className="text-sm text-center mt-4 text-white/60">
-          Don’t have an account?{" "}
+          Don't have an account?{" "}
           <span
             className="text-white underline cursor-pointer hover:text-white/90"
             onClick={() => navigate("/signup")}

@@ -1,27 +1,40 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 const Profile = () => {
-  // // Dummy data for now
-  // const profile = {
-  //   firstName: 'John',
-  //   lastName: 'Doe',
-  //   business: 'Acme Corp',
-  //   email: 'john.doe@example.com'
-  // };
-
   const [profile, setProfile] = useState('');
+  const navigate = useNavigate();
 
   const getProfile = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/profile`, {withCredentials: true});
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/profile`, {
+        withCredentials: true
+      });
       setProfile(res.data.user);
-      console.log(res.data);
     } catch (error) {
       setProfile('');
     }
-  }
+  };
+
+  const handleDeleteAccount = async () => {
+    const confirm = window.confirm("Are you sure you want to permanently delete your account?");
+    if (!confirm) return;
+
+    try {
+      const res = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/auth/delete-account`, {
+        withCredentials: true
+      });
+      if (res.data.success) {
+        alert("Account deleted successfully");
+        navigate("/login", { replace: true });
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error("Account deletion failed:", error);
+      alert("Something went wrong while deleting your account.");
+    }
+  };
 
   useEffect(() => {
     getProfile();
@@ -29,7 +42,7 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen bg-[#0d0d0d] text-white px-4 sm:px-6 lg:px-8 py-10 space-y-10">
-      
+
       {/* Header */}
       <div>
         <h1 className="text-3xl font-semibold">Your Profile</h1>
@@ -55,19 +68,35 @@ const Profile = () => {
           <p className="text-lg font-medium">{profile.emailId}</p>
         </div>
 
-        <div className="flex gap-4 pt-4">
-          <NavLink
+        {/* Action Buttons */}
+        <div className="flex flex-wrap gap-4 pt-4">
+          {/* <NavLink
             to="/edit-profile"
             className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-md text-sm font-medium transition"
           >
             Edit Profile
           </NavLink>
+
           <NavLink
             to="/change-password"
             className="bg-gray-800 hover:bg-gray-700 text-white px-5 py-2 rounded-md text-sm font-medium transition"
           >
             Change Password
+          </NavLink> */}
+
+          <NavLink
+            to="/forgot-password"
+            className="bg-yellow-700 hover:bg-yellow-800 text-white px-5 py-2 rounded-md text-sm font-medium transition"
+          >
+            Forgot Password
           </NavLink>
+
+          <button
+            onClick={handleDeleteAccount}
+            className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-md text-sm font-medium transition cursor-pointer"
+          >
+            Delete Account
+          </button>
         </div>
       </div>
     </div>

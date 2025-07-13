@@ -4,6 +4,7 @@ import validation from "../utils/validation.js";
 import validator from "validator";
 import jwt from "jsonwebtoken";
 import { sendEmail } from "../utils/sendEmail.js";
+import { Campaign } from "../models/campaign.models.js";
 
 export const signupUser = async (req, res) => {
   try {
@@ -115,5 +116,79 @@ export const verifyAuth = async (req, res) => {
     return res.status(200).json({ success: true, user: req.user });
   } catch (error) {
     return res.status(400).json({ success: false, ERROR: error.message });
+  }
+};
+
+export const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne({ emailId: email });
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    const token = await jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
+      expiresIn: "15m",
+    });
+
+    const resetLink = `${process.env.CLIENT_SITE}/reset-password/${token}`;
+
+    await sendEmail({
+      to: email,
+      subject: "Password Reset",
+      html: `
+        <p>Hello ${user.firstName},</p>
+        <p>You requested a password reset.</p>
+        <a href="${resetLink}">Click here to proceed.</a>
+        <p>This link expires in 15 minutes.</p>
+      `,
+    });
+
+    res.status(200).json({ success: true, message: "Reset link sent to your email." });
+  } catch (error) {
+    console.error("Forgot Password Error:", error); // helpful!
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+
+export const resetPassword = async (req, res) => {
+  try {
+    const { token } = req.params;
+    const { password } = req.body;
+
+    const decoded = await jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const hashed = await bcrypt.hash(password, 10);
+
+    await User.findByIdAndUpdate(decoded.id, { password: hashed });
+
+    res.status(200).json({ success: true, message: "Password reset successful" });
+  } catch (error) {
+    res.status(400).json({ success: false, error: "Invalid or expired token" });
+  }
+};
+
+export const deleteAccount = async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    // Step 1: Get all campaigns by the user
+    const campaigns = await Campaign.find({ userId });
+
+    // Step 2: For each campaign, delete its reviews and then the campaign itself (so pre hook works)
+    for (const campaign of campaigns) {
+      // await Review.deleteMany({ campaignId: campaign._id }); 
+      await campaign.deleteOne(); // this will trigger campaignSchema.pre("deleteOne")
+    }
+
+    // Step 3: Delete the user
+    await User.findByIdAndDelete(userId);
+
+    res.clearCookie("token");
+    return res.status(200).json({ success: true, message: "Account and all related data deleted." });
+
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
   }
 };

@@ -86,7 +86,7 @@ const CampaignList = () => {
                   </a>
                   <button
                     onClick={() => handleCopy(item.reviewLink, item._id + "-link")}
-                    className="hover:text-green-300 transition"
+                    className="hover:text-green-300 transition cursor-pointer"
                   >
                     <Copy size={16} />
                   </button>
@@ -110,7 +110,7 @@ const CampaignList = () => {
                         item._id + "-script"
                       )
                     }
-                    className="hover:text-indigo-300 transition"
+                    className="hover:text-indigo-300 transition cursor-pointer"
                   >
                     <Copy size={16} />
                   </button>
