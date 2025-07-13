@@ -97,7 +97,7 @@ const Signup = () => {
           value={form.password}
           required
           placeholder="Password"
-          className="bg-white/10 text-white placeholder-white/60 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-white/20 transition"
+          className="bg-white/10 text-white placeholder-white/60 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-white/21 transition"
           onChange={handleChange}
         />
 
