@@ -20,7 +20,7 @@ import CampaignList from "./pages/campaign/CampaignList.jsx";
 import CreateCampaign from "./pages/campaign/CreateCampaign.jsx";
 import Profile from "./pages/profile/Profile.jsx";
 import Services from "./pages/Services.jsx";
-import AboutUs from "./pages/Aboutus.jsx";
+import AboutUs from "./pages/AboutUs.jsx";
 import ContactUs from "./pages/Contactus.jsx";
 import PrivacyPolicy from "./pages/PrivayPolicy.jsx";
 import Pricing from "./pages/Pricing.jsx";
