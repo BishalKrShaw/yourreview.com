@@ -20,7 +20,7 @@ const EmailVerification = () => {
     }
 
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/auth/verify-email?token=${token}`);
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/auth/verify-email?token=${token}`); 
       console.log(res.data);
       console.log(res.data.success);
       if(res.data.success) {
