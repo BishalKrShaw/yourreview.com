@@ -1,9 +1,13 @@
 import axios from "axios";
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { clearUser } from "../features/auth/authSlice";
+import { useDispatch } from "react-redux";
 
 const Sidebar = () => {
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const handleLogout = async () => {
     try {
@@ -14,6 +18,7 @@ const Sidebar = () => {
       );
       console.log(res.data);
       if (res.data.success) {
+        dispatch(clearUser());
         navigate("/login", { replace: true });
         window.location.reload();
       } else {

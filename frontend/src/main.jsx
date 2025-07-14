@@ -29,6 +29,8 @@ import ReviewForm from "./pages/review/ReviewForm.jsx";
 import CampaignReviews from "./pages/review/CampaignReviews.jsx";
 import ForgotPassword from "./pages/ForgetPassword.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
+import store from "./app/store.js";
+import { Provider } from "react-redux";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -72,6 +74,8 @@ const router = createBrowserRouter(
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </StrictMode>
 );

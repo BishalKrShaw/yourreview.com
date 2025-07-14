@@ -2,9 +2,13 @@ import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
+import {useDispatch} from 'react-redux';
+import { setUser } from "../../features/auth/authSlice";
 
 const Login = () => {
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const [form, setForm] = useState({
     emailId: "",
@@ -28,6 +32,9 @@ const Login = () => {
         { withCredentials: true }
       );
       setMessage(res.data.message);
+
+      dispatch(setUser(res.data.user));
+
       navigate("/dashboard", { replace: true });
     } catch (err) {
       setMessage(err.response?.data?.ERROR || "Login failed.");
