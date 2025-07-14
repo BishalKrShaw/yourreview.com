@@ -81,7 +81,7 @@ export const loginUser = async (req, res) => {
     const token = await user.getJWT();
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
+      secure: true,
       sameSite: "Lax",
       maxAge: 24 * 60 * 60 * 1000,
     });
@@ -99,7 +99,7 @@ export const logoutUser = async (req, res) => {
     // Clear the token cookie properly
     res.clearCookie("token", {
       httpOnly: true,
-      secure: false, // set to true in production with HTTPS
+      secure: true, // set to true in production with HTTPS
       sameSite: "Lax",
     });
 
@@ -128,7 +128,7 @@ export const forgotPassword = async (req, res) => {
       return res.status(404).json({ success: false, message: "User not found" });
     }
 
-    const token = await jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
       expiresIn: "15m",
     });
 
@@ -158,7 +158,7 @@ export const resetPassword = async (req, res) => {
     const { token } = req.params;
     const { password } = req.body;
 
-    const decoded = await jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
     const hashed = await bcrypt.hash(password, 10);
 
     await User.findByIdAndUpdate(decoded.id, { password: hashed });

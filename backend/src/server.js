@@ -19,13 +19,12 @@ const app = express();
 const PORT = process.env.PORT || 7000;
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.use(cors({
   origin: process.env.CLIENT_SITE,
   credentials: true
 }))
-
-app.use(cookieParser());
 
 app.use("/api/auth", authRouter);
 app.use("/api/dashboard", dashboardRouter);
