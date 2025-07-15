@@ -50,9 +50,6 @@ const Dashboard = () => {
         }, {
           label: "Total Reviews",
           value: stats.totalReviews
-        }, {
-          label: "Avg Rating",
-          value: "—" // Placeholder for future
         }].map((item, index) => (
           <div key={index} className="bg-black/80 border border-gray-800 rounded-xl p-5 shadow-md backdrop-blur-sm">
             <h2 className="text-sm text-gray-400">{item.label}</h2>
