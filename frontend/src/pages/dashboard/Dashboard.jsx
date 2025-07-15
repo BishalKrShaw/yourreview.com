@@ -11,7 +11,6 @@ const Dashboard = () => {
   });
 
   const navigate = useNavigate();
-
   const data = useSelector((store) => store.auth.user);
 
   useEffect(() => {
@@ -36,14 +35,14 @@ const Dashboard = () => {
 
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-semibold">
+        <h1 className="text-2xl sm:text-3xl font-semibold">
           Welcome, <span className="text-indigo-400">{data.firstName}</span>
         </h1>
         <p className="text-sm text-gray-400 mt-1">Your performance overview and recent activity</p>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {[{
           label: "Total Campaigns",
           value: stats.totalCampaigns
@@ -59,15 +58,15 @@ const Dashboard = () => {
       </div>
 
       {/* Recent Campaigns Table */}
-      <div className="bg-black/80 border border-gray-800 rounded-xl p-6 shadow-md backdrop-blur-sm">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">Recent Campaigns</h2>
+      <div className="bg-black/80 border border-gray-800 rounded-xl p-4 sm:p-6 shadow-md backdrop-blur-sm">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4">
+          <h2 className="text-lg sm:text-xl font-semibold">Recent Campaigns</h2>
           <NavLink to="/campaigns" className="text-indigo-400 hover:underline text-sm">
             View All →
           </NavLink>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+          <table className="w-full min-w-[500px] text-sm">
             <thead>
               <tr className="text-gray-500 border-b border-gray-800">
                 <th className="pb-2 text-left">Name</th>

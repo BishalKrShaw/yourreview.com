@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -41,10 +40,10 @@ const Landing = () => {
         ref={(el) => (sectionsRef.current[0] = el)}
         className="min-h-screen flex items-center justify-center flex-col px-6 text-center"
       >
-        <h1 className="text-3xl sm:text-5xl font-semibold leading-tight mb-2">
+        <h1 className="text-2xl sm:text-4xl md:text-5xl font-semibold leading-tight mb-2 text-balance">
           Collect reviews from your customers &
         </h1>
-        <h1 className="text-3xl sm:text-5xl font-semibold leading-tight">
+        <h1 className="text-2xl sm:text-4xl md:text-5xl font-semibold leading-tight text-balance">
           display on your website easily.
         </h1>
         <button
@@ -60,10 +59,10 @@ const Landing = () => {
         ref={(el) => (sectionsRef.current[1] = el)}
         className="min-h-screen flex flex-col justify-center px-6 max-w-5xl mx-auto"
       >
-        <h2 className="text-4xl font-semibold mb-6 text-center">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold mb-6 text-center text-balance">
           What is YourReview?
         </h2>
-        <p className="text-lg text-gray-300 text-center">
+        <p className="text-base sm:text-lg text-gray-300 text-center max-w-3xl mx-auto">
           YourReview helps small businesses, freelancers, and startups collect authentic reviews from their customers with shareable links. These reviews can be embedded on your site beautifully.
         </p>
       </section>
@@ -73,8 +72,10 @@ const Landing = () => {
         ref={(el) => (sectionsRef.current[2] = el)}
         className="min-h-screen flex flex-col justify-center px-6 max-w-6xl mx-auto"
       >
-        <h2 className="text-4xl font-semibold mb-6 text-center">Key Features</h2>
-        <ul className="grid sm:grid-cols-2 gap-6 text-lg text-gray-300">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold mb-6 text-center text-balance">
+          Key Features
+        </h2>
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-base sm:text-lg text-gray-300">
           <li className="bg-white/10 p-6 rounded-lg">⚡ Create Campaigns Easily</li>
           <li className="bg-white/10 p-6 rounded-lg">🔗 Share Review Links</li>
           <li className="bg-white/10 p-6 rounded-lg">💬 Collect Customer Feedback</li>
@@ -88,8 +89,10 @@ const Landing = () => {
         ref={(el) => (sectionsRef.current[3] = el)}
         className="min-h-[50vh] flex flex-col items-center justify-center text-center px-6"
       >
-        <h2 className="text-4xl font-semibold mb-4">Get Started Free</h2>
-        <p className="text-gray-300 mb-6 max-w-xl">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold mb-4 text-balance">
+          Get Started Free
+        </h2>
+        <p className="text-sm sm:text-base text-gray-300 mb-6 max-w-xl px-2 sm:px-0">
           Register and start collecting reviews instantly. No credit card required. Perfect for testing and building trust.
         </p>
         <button
