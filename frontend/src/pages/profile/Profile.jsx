@@ -45,45 +45,33 @@ const Profile = () => {
 
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-semibold">Your Profile</h1>
-        <p className="text-sm text-gray-400 mt-1">Manage your personal and business information</p>
+        <h1 className="text-2xl sm:text-3xl font-semibold">Your Profile</h1>
+        <p className="text-sm text-gray-400 mt-1">
+          Manage your personal and business information
+        </p>
       </div>
 
       {/* Profile Info */}
-      <div className="bg-black backdrop-blur-sm border border-gray-800 rounded-xl p-6 shadow-md max-w-xl space-y-6">
+      <div className="bg-black/80 backdrop-blur-sm border border-gray-800 rounded-xl p-6 sm:p-8 shadow-md max-w-xl w-full space-y-6">
         <div>
           <label className="block text-sm text-gray-400 mb-1">Full Name</label>
-          <p className="text-lg font-medium">
+          <p className="text-base sm:text-lg font-medium">
             {profile.firstName} {profile.lastName}
           </p>
         </div>
 
         <div>
           <label className="block text-sm text-gray-400 mb-1">Business Name</label>
-          <p className="text-lg font-medium">{profile.businessName}</p>
+          <p className="text-base sm:text-lg font-medium">{profile.businessName}</p>
         </div>
 
         <div>
           <label className="block text-sm text-gray-400 mb-1">Email</label>
-          <p className="text-lg font-medium">{profile.emailId}</p>
+          <p className="text-base sm:text-lg font-medium overflow-x-auto">{profile.emailId}</p>
         </div>
 
         {/* Action Buttons */}
         <div className="flex flex-wrap gap-4 pt-4">
-          {/* <NavLink
-            to="/edit-profile"
-            className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-md text-sm font-medium transition"
-          >
-            Edit Profile
-          </NavLink>
-
-          <NavLink
-            to="/change-password"
-            className="bg-gray-800 hover:bg-gray-700 text-white px-5 py-2 rounded-md text-sm font-medium transition"
-          >
-            Change Password
-          </NavLink> */}
-
           <NavLink
             to="/forgot-password"
             className="bg-yellow-700 hover:bg-yellow-800 text-white px-5 py-2 rounded-md text-sm font-medium transition"
