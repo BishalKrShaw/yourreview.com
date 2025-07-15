@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios";
 import { Navigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../features/auth/authSlice';
 
 const ProtectedRoute = ({children}) => {
 
   const [isAuthenticated, setIsAuthenticated] = useState(null);
+
+  const dispatch = useDispatch();
 
   const verifyUser = async () => {
     try {
@@ -12,6 +16,7 @@ const ProtectedRoute = ({children}) => {
 
       if(res.data.success) {
         setIsAuthenticated(true);
+        dispatch(setUser(res.data.user));
       } else {
         setIsAuthenticated(false);
       }

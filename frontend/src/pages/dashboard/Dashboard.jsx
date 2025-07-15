@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
@@ -10,6 +11,8 @@ const Dashboard = () => {
   });
 
   const navigate = useNavigate();
+
+  const data = useSelector((store) => store.auth.user);
 
   useEffect(() => {
     const fetchDashboard = async () => {
@@ -34,7 +37,7 @@ const Dashboard = () => {
       {/* Header */}
       <div>
         <h1 className="text-3xl font-semibold">
-          Welcome, <span className="text-indigo-400">Your Business Name</span>
+          Welcome, <span className="text-indigo-400">{data.firstName}</span>
         </h1>
         <p className="text-sm text-gray-400 mt-1">Your performance overview and recent activity</p>
       </div>
