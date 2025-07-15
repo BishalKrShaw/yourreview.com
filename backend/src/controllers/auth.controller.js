@@ -81,8 +81,8 @@ export const loginUser = async (req, res) => {
     const token = await user.getJWT();
     res.cookie("token", token, {
       httpOnly: true,
-      secure: true,
-      sameSite: "None",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
       maxAge: 24 * 60 * 60 * 1000,
     });
 
@@ -99,8 +99,8 @@ export const logoutUser = async (req, res) => {
     // Clear the token cookie properly
     res.clearCookie("token", {
       httpOnly: true,
-      secure: true, // set to true in production with HTTPS
-      sameSite: "None",
+      secure: process.env.NODE_ENV === "production", // set to true in production with HTTPS
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax"
     });
 
     return res

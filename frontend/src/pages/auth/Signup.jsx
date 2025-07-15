@@ -22,7 +22,7 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage("");
+    setMessage("Sending...");
 
     try {
       const res = await axios.post(

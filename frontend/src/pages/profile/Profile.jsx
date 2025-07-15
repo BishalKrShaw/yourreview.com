@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 
 const Profile = () => {
@@ -11,7 +12,7 @@ const Profile = () => {
       const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/profile`, {
         withCredentials: true
       });
-      setProfile(res.data.user);
+      setProfile(res?.data?.user);
     } catch (error) {
       setProfile('');
     }

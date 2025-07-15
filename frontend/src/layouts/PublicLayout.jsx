@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Navigate, Outlet } from "react-router-dom";
 
-const PublicRoute = () => {
+const PublicLayout = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
 
   const verifyUser = async () => {
@@ -31,4 +31,4 @@ const PublicRoute = () => {
   return isAuthenticated ? <Navigate to="/dashboard" replace /> : <Outlet />;
 };
 
-export default PublicRoute;
+export default PublicLayout;
