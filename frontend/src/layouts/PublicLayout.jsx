@@ -25,7 +25,9 @@ const PublicLayout = () => {
   }, []);
 
   if (isAuthenticated === null) {
-    return <div>Loading...</div>;
+    return <div className="text-white flex items-center justify-center w-full h-screen">
+      <p>Loading...</p>
+    </div>;
   }
 
   return isAuthenticated ? <Navigate to="/dashboard" replace /> : <Outlet />;
