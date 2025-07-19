@@ -4,6 +4,7 @@ import { Navigate, Outlet } from "react-router-dom";
 
 const PublicLayout = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const [checked, setChecked] = useState(false);
 
   const verifyUser = async () => {
     try {
@@ -12,11 +13,11 @@ const PublicLayout = () => {
       });
       if (res.data.success) {
         setIsAuthenticated(true);
-      } else {
-        setIsAuthenticated(false);
       }
     } catch {
       setIsAuthenticated(false);
+    } finally {
+      setChecked(true);
     }
   };
 
@@ -24,10 +25,8 @@ const PublicLayout = () => {
     verifyUser();
   }, []);
 
-  if (isAuthenticated === null) {
-    return <div className="text-white flex items-center justify-center w-full h-screen">
-      <p>Loading...</p>
-    </div>;
+  if(!checked) {
+    return <Outlet/>
   }
 
   return isAuthenticated ? <Navigate to="/dashboard" replace /> : <Outlet />;
